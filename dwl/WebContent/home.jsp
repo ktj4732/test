@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 
-
+      내용 수정
       <table width = "" border = "1">
       <tr>
             <td>개인기본정보id</td>
