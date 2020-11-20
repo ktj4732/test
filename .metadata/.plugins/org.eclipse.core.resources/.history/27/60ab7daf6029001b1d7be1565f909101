@@ -1,0 +1,105 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+
+
+      <table width = "" border = "1">
+      <tr>
+            <td>개인기본정보id</td>
+			<td>사번</td>
+			<td>한글성명</td>
+			<td>영어성명</td>
+			<td>주민등록번호</td>
+			<td>생년월일</td>
+			<td>성별(gender_code)</td>
+			<td>직원유형(employee_type)</td>
+			<td>입사일자</td>
+			<td>이메일</td>
+			<td>생성자</td>
+			<td>생성일시</td>
+			<td>수정자</td>
+			<td>수정일시</td>
+
+      </tr>
+      
+<%
+    //내 db 접속에 사용할 conn 변수
+    Connection conn = null;
+
+	//SQL구문을 실행
+	Statement stmt = null;
+	
+	//SQL구문의 실행결과를 저장
+	ResultSet rs = null;
+	
+    //오라클 드라이버 경로 설정
+    String driver = "oracle.jdbc.driver.OracleDriver";
+    //내 db의 계정 경로 설정
+    String url = "jdbc:oracle:thin:@vis122.built1.com:1521:VIS1229";
+    //접속 성공,실패 여부 사용시 쓰는 변수
+    //Boolean connect = false;
+    
+ 	
+    
+    //db 접속 코드는 반드시 try~catch문 안에 써줘야함
+    try {
+        //오라클 드라이버 접속
+        Class.forName(driver);
+        //데이터베이스 커넥션 생성 - 내 db 접속
+        conn = DriverManager.getConnection(url, "apps", "apps");
+        //접속성공시 true 설정
+        //connect = true;
+        System.out.println("연결시작");
+        
+        
+        String query = "select * from cbo1.cbo_person_master";
+        
+       	//Statement 생성
+        stmt = conn.createStatement();
+        
+        //쿼리를 통해 얻은 데이터를 resultset에 넣어준다.
+        rs = stmt.executeQuery(query);
+        
+        //결과셋에 담긴 데이터들 출력
+        while (rs.next()) {
+%>	
+			<tr>
+	        	<td><%=rs.getString("cbo_person_master_id")%></td>
+	        	<td><%=rs.getString("employee_number")%></td>
+	        	<td><%=rs.getString("korean_name")%></td>
+	        	<td><%=rs.getString("english_name")%></td>
+	        	<td><%=rs.getString("registration_number")%></td>
+	        	<td><%=rs.getString("birthday").substring(0,10)%></td>
+	        	<td><%=rs.getString("gender_code")%></td>
+	        	<td><%=rs.getString("employee_type")%></td>
+	        	<td><%=rs.getString("hiredate").substring(0,10)%></td>
+	        	<td><%=rs.getString("email")%></td>
+	        	<td><%=rs.getString("creation_by")%></td>
+	        	<td><%=rs.getString("creation_date")%></td>
+	        	<td><%=rs.getString("last_update_by")%></td>
+	        	<td><%=rs.getString("last_update_date")%></td>
+
+	        	
+	       	</tr>
+       	</table>
+<%
+        }
+        
+        stmt.close();
+        rs.close();
+        
+        //접속 끊기, 끊는 이유 : 항상 db가 연결되어 있으면 접속 오류 및 데이터 충돌이 일어나기 때문 
+        conn.close();
+        
+        System.out.println("연결종료");
+    } catch (Exception e) {
+        //접속 실패시 false 잡고 예외처리해줌
+        connect = false;
+        e.printStackTrace();
+    }
+
+
+%>
+   
+   
+    
