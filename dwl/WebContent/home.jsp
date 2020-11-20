@@ -19,6 +19,7 @@
 			<td>생성일시</td>
 			<td>수정자</td>
 			<td>수정일시</td>
+asdasdasdasd
 
       </tr>
       
@@ -81,6 +82,7 @@
 	        	<td><%=rs.getString("last_update_date")%>			</td>
 	       	</tr>
        	</table>
+	adddddddddddddddddddddddddd
 <%
         }
         
